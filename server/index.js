@@ -1,9 +1,23 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 //configurar el servidor con express
 const app = express();
 
-app.use('/', (req,res) => {
-    res.send('Escuchando en Puerto');
+//conexión a mongodb
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/maps', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
-app.listen(3000);
+
+//habilitar el bodyparser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({exntended: true}));
+
+//puerto y arranque del servidor
+app.listen(3000, ()=>{
+    console.log('Servidor funcionando');
+})
